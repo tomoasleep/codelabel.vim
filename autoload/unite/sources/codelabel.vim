@@ -15,7 +15,7 @@ let s:source_codelabel = {
       \ } "}}}
 
 function! s:source_codelabel.gather_candidates(args, context) "{{{
-  let labellist = codelabel#read_labellist()
+  let labellist = codelabel#build_labellist()
   return map(labellist, '{
         \ "word": s:format_word(v:val.code_path, v:val.linepos, v:val.content, v:val.line),
         \ "source": "codelabel",

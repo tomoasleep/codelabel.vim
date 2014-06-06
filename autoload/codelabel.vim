@@ -17,22 +17,21 @@ function! codelabel#new() "{{{
   call s:open_codelabel_buffer(bname, codeinfo)
 endfunction "}}}
 
-function! codelabel#read_labellist() "{{{
+function! codelabel#build_labellist() "{{{
   let flist = split(globpath(g:codelabel_save_dir, '*.md'), '\n')
   let list = []
   for fname in flist
-    call add(list, codelabel#read(fname))
+    call add(list, codelabel#parse_labelfile(fname))
   endfor
   return list
 endfunction "}}}
 
-function! codelabel#read(fname) "{{{
+function! codelabel#parse_labelfile(fname) "{{{
   let fhead = readfile(a:fname, '', 3)
   if len(fhead) > 1
     let content = fhead[1:]
-  elseif
-    let content = []
   else
+    let content = []
   endif
   let labelinfo = s:parse_labelheader(fhead[0])
   return { 'label_path': a:fname,
