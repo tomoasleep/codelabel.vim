@@ -18,9 +18,11 @@ function! s:source_codelabel.gather_candidates(args, context) "{{{
   return map(labellist, '{
         \ "word": printf("%s: [%d] %s", v:val.code_path, v:val.linepos, v:val.line),
         \ "source": "codelabel",
-        \ "kind": "jump_list",
+        \ "kind": "codelabel",
         \ "action__path": v:val.code_path,
-        \ "action__line": v:val.linepos }')
+        \ "action__line": v:val.linepos,
+        \ "action__label_path": v:val.label_path,
+        \ }')
 endfunction "}}}
 
 let &cpo = s:save_cpo
