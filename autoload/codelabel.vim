@@ -8,6 +8,8 @@ let s:FP = s:V.import('System.Filepath')
 
 let s:BufferManager = s:BM.new()
 
+" Public functions {{{
+
 function! codelabel#new() "{{{
   let linepos = line('.')
   let fname_relative = resolve(bufname(''))
@@ -43,6 +45,10 @@ function! codelabel#read(fname) "{{{
          \ 'content': join(content, '\n') }
 endfunction "}}}
 
+" }}}
+
+" Private functions {{{
+
 function! s:parse_labelheader(header) "{{{
   let infos = split(a:header, '	')
   return { 'path': infos[0],
@@ -72,6 +78,8 @@ function! s:open_codelabel_buffer(bname, codeinfo) "{{{
   let buffer = s:BufferManager.open(s:FP.join(g:codelabel_save_dir, a:bname))
   call setline(1, a:codeinfo)
 endfunction "}}}
+
+" }}}
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
