@@ -11,6 +11,7 @@ let s:source_codelabel = {
       \ 'name' : 'codelabel',
       \ 'hooks' : {},
       \ 'max_candidates': 100,
+      \ 'sorters': ['sorter_label_ftime', 'sorter_reverse'],
       \ } "}}}
 
 function! s:source_codelabel.gather_candidates(args, context) "{{{
