@@ -3,7 +3,7 @@ set cpo&vim
 
 function! unite#kinds#codelabel#define() "{{{
   return s:kind
-endfunction"}}}
+endfunction "}}}
 
 let s:kind = {
       \ 'name' : 'codelabel',
