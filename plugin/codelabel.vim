@@ -16,6 +16,13 @@ endif
 
 command! -nargs=0 CodeLabelNew :call codelabel#new()
 
+augroup codelabel
+  autocmd! codelabel
+  autocmd BufReadPost * :call codelabel#sign#mark_new_buffer()
+augroup END
+
+call codelabel#sign#setup()
+
 let &cpo = s:cpo_save
 
 " vim:set ft=vim ts=2 sw=2 sts=2:
