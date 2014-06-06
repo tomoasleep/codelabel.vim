@@ -28,12 +28,19 @@ function! codelabel#read_labellist() "{{{
 endfunction "}}}
 
 function! codelabel#read(fname) "{{{
-  let header = readfile(a:fname, '', 1)[0]
-  let labelinfo = s:parse_labelheader(header)
+  let fhead = readfile(a:fname, '', 3)
+  if len(fhead) > 1
+    let content = fhead[1:]
+  elseif
+    let content = []
+  else
+  endif
+  let labelinfo = s:parse_labelheader(fhead[0])
   return { 'label_path': a:fname,
          \ 'code_path': labelinfo.path,
          \ 'linepos': labelinfo.linepos,
-         \ 'line': labelinfo.line }
+         \ 'line': labelinfo.line,
+         \ 'content': join(content, '\n') }
 endfunction "}}}
 
 function! s:parse_labelheader(header) "{{{

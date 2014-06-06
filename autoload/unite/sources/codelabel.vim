@@ -17,13 +17,18 @@ let s:source_codelabel = {
 function! s:source_codelabel.gather_candidates(args, context) "{{{
   let labellist = codelabel#read_labellist()
   return map(labellist, '{
-        \ "word": printf("%s: [%d] %s", v:val.code_path, v:val.linepos, v:val.line),
+        \ "word": s:format_word(v:val.code_path, v:val.linepos, v:val.content, v:val.line),
         \ "source": "codelabel",
         \ "kind": "codelabel",
         \ "action__path": v:val.code_path,
         \ "action__line": v:val.linepos,
         \ "action__label_path": v:val.label_path,
         \ }')
+endfunction "}}}
+
+function! s:format_word(code_path, linepos, content, line) "{{{
+  return printf(" %s: [%d] %s : %s",
+        \ fnamemodify(a:code_path, ':.'), a:linepos, a:content, a:line)
 endfunction "}}}
 
 let &cpo = s:save_cpo
