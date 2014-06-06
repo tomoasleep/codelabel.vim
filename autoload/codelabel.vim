@@ -26,6 +26,18 @@ function! codelabel#build_labellist() "{{{
   return list
 endfunction "}}}
 
+function! codelabel#build_labelmap() "{{{
+  let labellist = codelabel#confirm_labellist()
+  let labelmap = {}
+  for label in labellist
+    if !has_key(labelmap, label.code_path)
+      let labelmap[label.code_path] = []
+    endif
+    call add(labelmap[label.code_path], label)
+  endfor
+  return labelmap
+endfunction "}}}
+
 function! codelabel#parse_labelfile(fname) "{{{
   let fhead = readfile(a:fname, '', 3)
   if len(fhead) > 1
@@ -43,6 +55,31 @@ endfunction "}}}
 
 function! codelabel#open_preview(fname) "{{{
   execute join(['pedit', a:fname], ' ')
+endfunction "}}}
+
+function! codelabel#search_by_file(fname) "{{{
+  let labelmap = codelabel#confirm_labelmap()
+  if has_key(labelmap, a:fname)
+    return labelmap[a:fname]
+  else
+    return []
+  endif
+endfunction "}}}
+
+function! codelabel#confirm_labellist() "{{{
+  if !(exists('s:labellist') && s:labellist)
+    let s:labellist = codelabel#build_labellist()
+    let s:labelmap_is_old = 1
+  endif
+  return s:labellist
+endfunction "}}}
+
+function! codelabel#confirm_labelmap() "{{{
+  if !exists('s:labelmap') || !exists('s:labelmap_is_old') || s:labelmap_is_old
+    let s:labelmap = codelabel#build_labelmap()
+    let s:labelmap_is_old = 0
+  endif
+  return s:labelmap
 endfunction "}}}
 
 function! codelabel#current_buffer_info() "{{{
