@@ -45,6 +45,10 @@ function! codelabel#read(fname) "{{{
          \ 'content': join(content, '\n') }
 endfunction "}}}
 
+function! codelabel#open_preview(fname) "{{{
+  execute join(['pedit', a:fname], ' ')
+endfunction "}}}
+
 " }}}
 
 " Private functions {{{

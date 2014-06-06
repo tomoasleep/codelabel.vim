@@ -21,8 +21,7 @@ let s:kind.action_table.open = {
       \ }
 function! s:kind.action_table.open.func(candidate) "{{{
   call s:super.action_table.open.func([a:candidate])
-  let label_path = a:candidate.action__label_path
-  execute join(['pedit', label_path], ' ')
+  call codelabel#open_preview(a:candidate.action__label_path)
 endfunction "}}}
 "}}}
 
