@@ -11,12 +11,9 @@ let s:BufferManager = s:BM.new()
 " Public functions {{{
 
 function! codelabel#new() "{{{
-  let linepos = line('.')
-  let fname_relative = resolve(bufname(''))
-  let fname_abs = fnamemodify(fname_relative, ':p')
-  let current_line = getline('.')
-  let bname = s:gen_buffer_name(fname_abs, linepos)
-  let codeinfo = s:gen_codeinfo(fname_abs, linepos, current_line)
+  let buf_info = codelabel#current_buffer_info()
+  let bname = s:gen_buffer_name(buf_info.fname_abs, buf_info.linepos)
+  let codeinfo = s:gen_codeinfo(buf_info.fname_abs, buf_info.linepos, buf_info.line)
   call s:open_codelabel_buffer(bname, codeinfo)
 endfunction "}}}
 
@@ -47,6 +44,17 @@ endfunction "}}}
 
 function! codelabel#open_preview(fname) "{{{
   execute join(['pedit', a:fname], ' ')
+endfunction "}}}
+
+function! codelabel#current_buffer_info() "{{{
+  let linepos = line('.')
+  let fname_relative = resolve(bufname(''))
+  let fname_abs = fnamemodify(fname_relative, ':p')
+  let current_line = getline('.')
+  return { 'fname_relative' : fname_relative,
+         \ 'fname_abs' : fname_abs,
+         \ 'linepos' : linepos,
+         \ 'line' : current_line }
 endfunction "}}}
 
 " }}}
