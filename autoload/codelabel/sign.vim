@@ -17,15 +17,16 @@ function! codelabel#sign#add(fname, line) "{{{
 endfunction "}}}
 
 function! codelabel#sign#remove(sign_id) "{{{
-  execute 'sign unplace '. sign_id
-  call remove(s:buffer_signs(), index(s:buffer_signs(), sign_id))
+  execute 'sign unplace '. a:sign_id
+  call remove(s:buffer_signs(), index(s:buffer_signs(), a:sign_id))
 endfunction "}}}
 
 function! codelabel#sign#remove_all() "{{{
   let signs = copy(s:buffer_signs())
   for sign_id in signs
-    codelabel#sign#remove(sign_id)
+    call codelabel#sign#remove(sign_id)
   endfor
+  unlet b:codelabel_signs
 endfunction "}}}
 
 function! codelabel#sign#mark_new_buffer() "{{{
