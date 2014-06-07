@@ -67,17 +67,16 @@ function! codelabel#search_by_file(fname) "{{{
 endfunction "}}}
 
 function! codelabel#confirm_labellist() "{{{
-  if !(exists('s:labellist') && s:labellist)
+  if !exists('s:labellist')
     let s:labellist = codelabel#build_labellist()
-    let s:labelmap_is_old = 1
+    call s:unlet('s:labelmap')
   endif
   return s:labellist
 endfunction "}}}
 
 function! codelabel#confirm_labelmap() "{{{
-  if !exists('s:labelmap') || !exists('s:labelmap_is_old') || s:labelmap_is_old
+  if !exists('s:labelmap')
     let s:labelmap = codelabel#build_labelmap()
-    let s:labelmap_is_old = 0
   endif
   return s:labelmap
 endfunction "}}}
@@ -125,6 +124,12 @@ function! s:open_codelabel_buffer(bname, codeinfo) "{{{
   endif
   let buffer = s:BufferManager.open(s:FP.join(g:codelabel_save_dir, a:bname))
   call setline(1, a:codeinfo)
+endfunction "}}}
+
+function! s:unlet(vname) "{{{
+  if exists(a:vname)
+    execute 'unlet ' . a:vname
+  endif
 endfunction "}}}
 
 " }}}
