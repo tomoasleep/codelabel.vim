@@ -29,14 +29,27 @@ function! codelabel#sign#remove_all() "{{{
   unlet b:codelabel_signs
 endfunction "}}}
 
-function! codelabel#sign#mark_new_buffer() "{{{
-  if !(exists('b:codelabel_signs') && b:codelabel_signs)
-    let buf_info = codelabel#current_buffer_info()
-    let labels = codelabel#search_by_file(buf_info.fname_abs)
-    for label in labels
-      call codelabel#sign#add(label.code_path, label.linepos)
-    endfor
+function! codelabel#sign#mark_buffer() "{{{
+  let buf_info = codelabel#current_buffer_info()
+  call codelabel#confirm_labelmap()
+  let updates = codelabel#diff#map_updates()
+  if has_key(updates, buf_info.fname_abs) && updates[buf_info.fname_abs]
+    call codelabel#sign#reset()
+    let updates[buf_info.fname_abs] = 0
   endif
+endfunction "}}}
+
+function! codelabel#sign#mark_all() "{{{
+  let buf_info = codelabel#current_buffer_info()
+  let labels = codelabel#search_by_file(buf_info.fname_abs)
+  for label in labels
+    call codelabel#sign#add(label.code_path, label.linepos)
+  endfor
+endfunction "}}}
+
+function! codelabel#sign#reset() "{{{
+  call codelabel#sign#remove_all()
+  call codelabel#sign#mark_all()
 endfunction "}}}
 
 " }}}

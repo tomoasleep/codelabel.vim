@@ -26,7 +26,7 @@ command! -nargs=0 CodeLabelNew :call codelabel#new()
 
 augroup codelabel
   autocmd! codelabel
-  autocmd BufReadPost * :call codelabel#sign#mark_new_buffer()
+  autocmd BufEnter * :call codelabel#sign#mark_buffer()
   autocmd BufWritePost *.md :call s:on_saved_new_label()
 augroup END
 
