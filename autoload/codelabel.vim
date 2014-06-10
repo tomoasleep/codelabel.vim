@@ -17,6 +17,15 @@ function! codelabel#new() "{{{
   call s:open_codelabel_buffer(bname, codeinfo)
 endfunction "}}}
 
+function! codelabel#add_label(label) "{{{
+  if exists('s:labellist')
+    call add(codelabel#confirm_labellist(), a:label)
+  else
+    call add(s:labellist, a:label)
+  endif
+  call s:unlet('s:labelmap')
+endfunction "}}}
+
 function! codelabel#build_labellist() "{{{
   let flist = split(globpath(g:codelabel_save_dir, '*.md'), '\n')
   let list = []

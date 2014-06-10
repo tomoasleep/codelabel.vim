@@ -14,11 +14,20 @@ if !exists('g:codelabel_save_dir')
   let g:codelabel_save_dir = $HOME . "/.codelabels"
 endif
 
+function! s:on_saved_new_label()
+  let buf_info = codelabel#current_buffer_info()
+  if len(matchstr(buf_info.fname_abs, g:codelabel_save_dir))
+    let label = codelabel#parse_labelfile(buf_info.fname_abs)
+    call codelabel#add_label(label)
+  endif
+endfunction
+
 command! -nargs=0 CodeLabelNew :call codelabel#new()
 
 augroup codelabel
   autocmd! codelabel
   autocmd BufReadPost * :call codelabel#sign#mark_new_buffer()
+  autocmd BufWritePost *.md :call s:on_saved_new_label()
 augroup END
 
 call codelabel#sign#setup()
