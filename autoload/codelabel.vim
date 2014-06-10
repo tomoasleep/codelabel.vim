@@ -86,6 +86,7 @@ endfunction "}}}
 function! codelabel#confirm_labelmap() "{{{
   if !exists('s:labelmap')
     let s:labelmap = codelabel#build_labelmap()
+    call codelabel#diff#on_change_labelmap(s:labelmap)
   endif
   return s:labelmap
 endfunction "}}}
